@@ -218,6 +218,32 @@ plot_UMAP_clus(dims_umap_3, labels_fs, colors_clus)
 ggsave("../plots/FlowSOM_UMAP_seed3.png", width = 4, height = 3)
 
 
+# ---------------------------
+# Facetted plot: random seeds
+# ---------------------------
+
+# facetted plot for 2 seeds
+d_umap <- rbind(
+  cbind(as.data.frame(dims_umap_1), seed = "seed1", cluster = labels_fs), 
+  cbind(as.data.frame(dims_umap_2), seed = "seed2", cluster = labels_fs))
+
+d_umap$seed <- as.factor(d_umap$seed)
+d_umap$cluster <- as.factor(d_umap$cluster)
+
+ggplot(d_umap, aes(x = UMAP_1, y = UMAP_2, color = cluster)) + 
+  geom_point(size = 0.1, alpha = 0.5) + 
+  scale_color_manual(values = colors_clus) + 
+  facet_wrap(~seed, ncol = 1) + 
+  theme_bw() + 
+  theme(legend.key.size = unit(0.75, "lines"), 
+        panel.grid = element_blank(), 
+        axis.text = element_blank(), 
+        axis.ticks = element_blank()) + 
+  guides(color = guide_legend(override.aes = list(size = 1.5, alpha = 0.75)))
+
+ggsave("../plots/UMAP_randomseeds.png", width = 3.75, height = 5.5)
+
+
 # ----------------------------
 # Generate plots: ground truth
 # ----------------------------
@@ -282,29 +308,6 @@ plot_UMAP_truth(dims_umap_3, pop_ids_sub, colors_truth)
 ggsave("../plots/truth_UMAP_seed3.png", width = 6, height = 3.5)
 
 
-# facetted plot for all 3 seeds
-d_umap <- rbind(
-  cbind(as.data.frame(dims_umap_1), seed = "seed1", population = as.character(pop_ids_sub)), 
-  cbind(as.data.frame(dims_umap_2), seed = "seed2", population = as.character(pop_ids_sub)), 
-  cbind(as.data.frame(dims_umap_3), seed = "seed3", population = as.character(pop_ids_sub)))
-
-d_umap$seed <- as.factor(d_umap$seed)
-d_umap$population <- as.factor(d_umap$population)
-
-ggplot(d_umap, aes(x = UMAP_1, y = UMAP_2, color = population)) + 
-  geom_point(size = 0.1, alpha = 0.5) + 
-  scale_color_manual(values = colors_truth) + 
-  facet_wrap(~seed) + 
-  theme_bw() + 
-  theme(legend.key.size = unit(0.75, "lines"), 
-        panel.grid = element_blank(), 
-        axis.text = element_blank(), 
-        axis.ticks = element_blank()) + 
-  guides(color = guide_legend(override.aes = list(size = 1.5, alpha = 0.75)))
-
-ggsave("../plots/UMAP_randomseeds.png", width = 10.5, height = 3)
-
-
 # --------------------------
 # Cluster expression heatmap
 # --------------------------
@@ -312,6 +315,7 @@ ggsave("../plots/UMAP_randomseeds.png", width = 10.5, height = 3)
 # use heatmap plotting function from CATALYST
 
 library(CATALYST)
+library(scales)
 
 # format into SingleCellExperiment for CATALYST
 sce <- SingleCellExperiment(
@@ -331,9 +335,9 @@ metadata(sce)$cluster_codes <- data.frame(som100 = factor(1:k), meta12 = factor(
 # order markers alphabetically
 sce <- sce[order(rowData(sce)$marker_name), ]
 
-pdf("../plots/heatmap_clusters.pdf", width = 6.25, height = 4)
+pdf("../plots/heatmap_clusters.pdf", width = 6.5, height = 3.5)
 plotExprHeatmap(sce, features = "type", by = "cluster_id", 
-                k = "meta12", k_pal = colors_clus, 
+                k = "meta12", k_pal = colors_clus, hm_pal = viridis_pal()(6), 
                 row_clust = FALSE, col_clust = FALSE)
 dev.off()
 
@@ -410,4 +414,35 @@ ggsave("../plots/Tcells_FlowSOM_tSNE.png", width = 4, height = 3)
 
 plot_UMAP_clus(dims_umap_tcells, labels_fs_tcells, colors_tcells)
 ggsave("../plots/Tcells_FlowSOM_UMAP.png", width = 4, height = 3)
+
+
+# heatmap: T cells
+
+ix_tcells <- labels_fs %in% c(1, 2)
+stopifnot(length(ix_tcells) == length(ix_keep))
+stopifnot(nrow(d_sub_tcells) == nrow(rowData(d_se)[ix_keep, ][ix_tcells, ]))
+
+# format into SingleCellExperiment for CATALYST
+sce_tcells <- SingleCellExperiment(
+  rowData = colData(d_se)[colData(d_se)$marker_class == "type", ], 
+  colData = rowData(d_se)[ix_keep, ][ix_tcells, ], 
+  assays = list(
+    exprs = t(d_sub_tcells)
+  )
+)
+
+colData(sce_tcells)$cluster_id <- labels_fs_tcells
+
+# structure required by plotExprHeatmap
+colData(sce_tcells)$sample_id <- "sample01"
+metadata(sce_tcells)$cluster_codes <- data.frame(som100 = factor(1:k), meta12 = factor(1:k))
+
+# order markers alphabetically
+sce_tcells <- sce_tcells[order(rowData(sce_tcells)$marker_name), ]
+
+pdf("../plots/heatmap_clusters_tcells.pdf", width = 6.5, height = 3.5)
+plotExprHeatmap(sce, features = "type", by = "cluster_id", 
+                k = "meta12", k_pal = colors_tcells, hm_pal = viridis_pal()(6), 
+                row_clust = FALSE, col_clust = FALSE)
+dev.off()
 
