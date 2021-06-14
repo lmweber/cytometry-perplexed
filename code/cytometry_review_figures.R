@@ -479,8 +479,8 @@ metadata(sce_tcells)$cluster_codes <- data.frame(som100 = factor(1:k), meta12 = 
 # order markers alphabetically
 sce_tcells <- sce_tcells[order(rowData(sce_tcells)$marker_name), ]
 
-pdf("../plots/heatmap_clusters_tcells.pdf", width = 6.5, height = 3.5)
-plotExprHeatmap(sce, features = "type", by = "cluster_id", 
+pdf("../plots/heatmap_tcells.pdf", width = 6.5, height = 3.5)
+plotExprHeatmap(sce_tcells, features = "type", by = "cluster_id", 
                 k = "meta12", k_pal = colors_tcells, hm_pal = viridis_pal()(6), 
                 row_clust = FALSE, col_clust = FALSE)
 dev.off()
