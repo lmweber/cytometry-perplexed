@@ -133,7 +133,7 @@ out_fs <- BuildMST(out_fs)
 labels_pre_meta <- out_fs$map$mapping[, 1]
 
 # number of meta-clusters
-k <- 12
+k <- 20
 
 seed <- 123
 out_fs <- metaClustering_consensus(out_fs$map$codes, k = k, seed = seed)
@@ -154,6 +154,7 @@ colors_clus <- brewer.pal(12, "Paired")
 #library(colorspace)
 #set.seed(7)
 #colors_clus <- sample(qualitative_hcl(12))
+#colors_clus <- sample(qualitative_hcl(20))
 
 #colors_clus <- unname(palette.colors(palette = "Polychrome 36"))
 #colors_clus <- rainbow(12)
@@ -398,14 +399,14 @@ colData(sce)$cluster_id <- labels_fs
 
 # structure required by plotExprHeatmap
 colData(sce)$sample_id <- "sample01"
-metadata(sce)$cluster_codes <- data.frame(som100 = factor(1:k), meta12 = factor(1:k))
+metadata(sce)$cluster_codes <- data.frame(som100 = factor(1:k), meta = factor(1:k))
 
 # order markers alphabetically
 sce <- sce[order(rowData(sce)$marker_name), ]
 
 pdf("../plots/heatmap_clusters.pdf", width = 6.5, height = 3.5)
 plotExprHeatmap(sce, features = "type", by = "cluster_id", 
-                k = "meta12", k_pal = colors_clus, hm_pal = viridis_pal()(6), 
+                k = "meta", k_pal = colors_clus, hm_pal = viridis_pal()(6), 
                 row_clust = FALSE, col_clust = FALSE)
 dev.off()
 
@@ -506,14 +507,14 @@ colData(sce_tcells)$cluster_id <- labels_fs_tcells
 
 # structure required by plotExprHeatmap
 colData(sce_tcells)$sample_id <- "sample01"
-metadata(sce_tcells)$cluster_codes <- data.frame(som100 = factor(1:k), meta12 = factor(1:k))
+metadata(sce_tcells)$cluster_codes <- data.frame(som100 = factor(1:k), meta = factor(1:k))
 
 # order markers alphabetically
 sce_tcells <- sce_tcells[order(rowData(sce_tcells)$marker_name), ]
 
 pdf("../plots/heatmap_tcells.pdf", width = 6.5, height = 3.5)
 plotExprHeatmap(sce_tcells, features = "type", by = "cluster_id", 
-                k = "meta12", k_pal = colors_tcells, hm_pal = viridis_pal()(6), 
+                k = "meta", k_pal = colors_tcells, hm_pal = viridis_pal()(6), 
                 row_clust = FALSE, col_clust = FALSE)
 dev.off()
 
