@@ -241,7 +241,30 @@ ggplot(d_umap, aes(x = UMAP_1, y = UMAP_2, color = cluster)) +
         axis.ticks = element_blank()) + 
   guides(color = guide_legend(override.aes = list(size = 1.5, alpha = 0.75)))
 
-ggsave("../plots/UMAP_randomseeds.png", width = 3.75, height = 5.5)
+ggsave("../plots/UMAP_randomseeds_two.png", width = 3.75, height = 5.5)
+
+
+# facetted plot for 3 seeds
+d_umap <- rbind(
+  cbind(as.data.frame(dims_umap_1), seed = "seed1", cluster = labels_fs), 
+  cbind(as.data.frame(dims_umap_2), seed = "seed2", cluster = labels_fs), 
+  cbind(as.data.frame(dims_umap_3), seed = "seed3", cluster = labels_fs))
+
+d_umap$seed <- as.factor(d_umap$seed)
+d_umap$cluster <- as.factor(d_umap$cluster)
+
+ggplot(d_umap, aes(x = UMAP_1, y = UMAP_2, color = cluster)) + 
+  geom_point(size = 0.1, alpha = 0.5) + 
+  scale_color_manual(values = colors_clus) + 
+  facet_wrap(~seed, ncol = 1) + 
+  theme_bw() + 
+  theme(legend.key.size = unit(0.75, "lines"), 
+        panel.grid = element_blank(), 
+        axis.text = element_blank(), 
+        axis.ticks = element_blank()) + 
+  guides(color = guide_legend(override.aes = list(size = 1.5, alpha = 0.75)))
+
+ggsave("../plots/UMAP_randomseeds_three.png", width = 3.5, height = 7.5)
 
 
 # ----------------------------
