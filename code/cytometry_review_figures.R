@@ -148,15 +148,16 @@ table(labels_fs)
 # Generate plots: clustering
 # --------------------------
 
-library(colorspace)
-set.seed(7)
-colors_clus <- sample(qualitative_hcl(12))
+library(RColorBrewer)
+colors_clus <- brewer.pal(12, "Paired")
+
+#library(colorspace)
+#set.seed(7)
+#colors_clus <- sample(qualitative_hcl(12))
 
 #colors_clus <- unname(palette.colors(palette = "Polychrome 36"))
 #colors_clus <- rainbow(12)
-#library(RColorBrewer)
 #colors_clus <- brewer.pal(12, "Set3")
-#colors_clus <- brewer.pal(12, "Paired")
 
 # function for tSNE plots
 plot_tSNE_clus <- function(dims_tSNE, labels, colors, 
@@ -222,6 +223,36 @@ ggsave("../plots/FlowSOM_UMAP_seed2.pdf", width = 4, height = 3)
 plot_UMAP_clus(dims_umap_3, labels_fs, colors_clus)
 ggsave("../plots/FlowSOM_UMAP_seed3.png", width = 4, height = 3)
 ggsave("../plots/FlowSOM_UMAP_seed3.pdf", width = 4, height = 3)
+
+
+# ---------------
+# Expression plot
+# ---------------
+
+# function to check expression of a given marker
+plot_UMAP_expr <- function(dims_umap, d_sub, marker, 
+                           size = 0.1, alpha = 0.5) {
+  
+  d_plot <- cbind(as.data.frame(dims_umap), expr = d_sub[, marker])
+  
+  ggplot(d_plot, aes(x = UMAP_1, y = UMAP_2, color = expr)) + 
+    geom_point(size = size, alpha = alpha) + 
+    scale_color_viridis_c() + 
+    ggtitle(marker) + 
+    theme_bw() + 
+    theme(legend.key.size = unit(0.75, "lines"), 
+          panel.grid = element_blank(), 
+          axis.text = element_blank(), 
+          axis.ticks = element_blank())
+}
+
+marker <- "CD14"
+plot_UMAP_expr(dims_umap_1, d_sub, marker)
+ggsave(paste0("../plots/", marker, "_UMAP.png"), width = 3.5, height = 3)
+
+marker <- "CD16"
+plot_UMAP_expr(dims_umap_1, d_sub, marker)
+ggsave(paste0("../plots/", marker, "_UMAP.png"), width = 3.5, height = 3)
 
 
 # ---------------------------
