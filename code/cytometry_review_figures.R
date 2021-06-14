@@ -178,14 +178,17 @@ plot_tSNE_clus <- function(dims_tSNE, labels, colors,
 # seed 1
 plot_tSNE_clus(dims_Rtsne_1, labels_fs, colors_clus)
 ggsave("../plots/FlowSOM_tSNE_seed1.png", width = 4, height = 3)
+ggsave("../plots/FlowSOM_tSNE_seed1.pdf", width = 4, height = 3)
 
 # seed 2
 plot_tSNE_clus(dims_Rtsne_2, labels_fs, colors_clus)
 ggsave("../plots/FlowSOM_tSNE_seed2.png", width = 4, height = 3)
+ggsave("../plots/FlowSOM_tSNE_seed2.pdf", width = 4, height = 3)
 
 # seed 3
 plot_tSNE_clus(dims_Rtsne_3, labels_fs, colors_clus)
 ggsave("../plots/FlowSOM_tSNE_seed3.png", width = 4, height = 3)
+ggsave("../plots/FlowSOM_tSNE_seed3.pdf", width = 4, height = 3)
 
 
 # function for UMAP plots
@@ -208,14 +211,17 @@ plot_UMAP_clus <- function(dims_umap, labels, colors,
 # seed 1
 plot_UMAP_clus(dims_umap_1, labels_fs, colors_clus)
 ggsave("../plots/FlowSOM_UMAP_seed1.png", width = 4, height = 3)
+ggsave("../plots/FlowSOM_UMAP_seed1.pdf", width = 4, height = 3)
 
 # seed 2
 plot_UMAP_clus(dims_umap_2, labels_fs, colors_clus)
 ggsave("../plots/FlowSOM_UMAP_seed2.png", width = 4, height = 3)
+ggsave("../plots/FlowSOM_UMAP_seed2.pdf", width = 4, height = 3)
 
 # seed 3
 plot_UMAP_clus(dims_umap_3, labels_fs, colors_clus)
 ggsave("../plots/FlowSOM_UMAP_seed3.png", width = 4, height = 3)
+ggsave("../plots/FlowSOM_UMAP_seed3.pdf", width = 4, height = 3)
 
 
 # ---------------------------
@@ -242,6 +248,7 @@ ggplot(d_umap, aes(x = UMAP_1, y = UMAP_2, color = cluster)) +
   guides(color = guide_legend(override.aes = list(size = 1.5, alpha = 0.75)))
 
 ggsave("../plots/UMAP_randomseeds_two.png", width = 3.75, height = 5.5)
+ggsave("../plots/UMAP_randomseeds_two.pdf", width = 3.75, height = 5.5)
 
 
 # facetted plot for 3 seeds
@@ -265,6 +272,7 @@ ggplot(d_umap, aes(x = UMAP_1, y = UMAP_2, color = cluster)) +
   guides(color = guide_legend(override.aes = list(size = 1.5, alpha = 0.75)))
 
 ggsave("../plots/UMAP_randomseeds_three.png", width = 3.5, height = 7.5)
+ggsave("../plots/UMAP_randomseeds_three.pdf", width = 3.5, height = 7.5)
 
 
 # ----------------------------
@@ -292,14 +300,17 @@ plot_tSNE_truth <- function(dims_tSNE, pop_ids, colors) {
 # seed 1
 plot_tSNE_truth(dims_Rtsne_1, pop_ids_sub, colors_truth)
 ggsave("../plots/truth_tSNE_seed1.png", width = 6, height = 3.5)
+ggsave("../plots/truth_tSNE_seed1.pdf", width = 6, height = 3.5)
 
 # seed 2
 plot_tSNE_truth(dims_Rtsne_2, pop_ids_sub, colors_truth)
 ggsave("../plots/truth_tSNE_seed2.png", width = 6, height = 3.5)
+ggsave("../plots/truth_tSNE_seed2.pdf", width = 6, height = 3.5)
 
 # seed 3
 plot_tSNE_truth(dims_Rtsne_3, pop_ids_sub, colors_truth)
 ggsave("../plots/truth_tSNE_seed3.png", width = 6, height = 3.5)
+ggsave("../plots/truth_tSNE_seed3.pdf", width = 6, height = 3.5)
 
 
 # function for UMAP plots
@@ -321,14 +332,17 @@ plot_UMAP_truth <- function(dims_umap, pop_ids, colors) {
 # seed 1
 plot_UMAP_truth(dims_umap_1, pop_ids_sub, colors_truth)
 ggsave("../plots/truth_UMAP_seed1.png", width = 6, height = 3.5)
+ggsave("../plots/truth_UMAP_seed1.pdf", width = 6, height = 3.5)
 
 # seed 2
 plot_UMAP_truth(dims_umap_2, pop_ids_sub, colors_truth)
 ggsave("../plots/truth_UMAP_seed2.png", width = 6, height = 3.5)
+ggsave("../plots/truth_UMAP_seed2.pdf", width = 6, height = 3.5)
 
 # seed 3
 plot_UMAP_truth(dims_umap_3, pop_ids_sub, colors_truth)
 ggsave("../plots/truth_UMAP_seed3.png", width = 6, height = 3.5)
+ggsave("../plots/truth_UMAP_seed3.pdf", width = 6, height = 3.5)
 
 
 # --------------------------
@@ -434,9 +448,11 @@ colors_tcells <- qualitative_hcl(k)
 
 plot_tSNE_clus(dims_Rtsne, labels_fs_tcells, colors_tcells)
 ggsave("../plots/Tcells_FlowSOM_tSNE.png", width = 4, height = 3)
+ggsave("../plots/Tcells_FlowSOM_tSNE.pdf", width = 4, height = 3)
 
 plot_UMAP_clus(dims_umap_tcells, labels_fs_tcells, colors_tcells)
 ggsave("../plots/Tcells_FlowSOM_UMAP.png", width = 4, height = 3)
+ggsave("../plots/Tcells_FlowSOM_UMAP.pdf", width = 4, height = 3)
 
 
 # heatmap: T cells
