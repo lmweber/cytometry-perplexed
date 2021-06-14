@@ -475,7 +475,8 @@ stopifnot(nrow(dims_umap_tcells) == length(labels_fs_tcells))
 
 # plot T cell subsets: tSNE and UMAP
 
-colors_tcells <- qualitative_hcl(k)
+colors_tcells <- colors_clus
+#colors_tcells <- qualitative_hcl(k)
 
 plot_tSNE_clus(dims_Rtsne, labels_fs_tcells, colors_tcells)
 ggsave("../plots/Tcells_FlowSOM_tSNE.png", width = 4, height = 3)
