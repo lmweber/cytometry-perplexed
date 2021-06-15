@@ -148,15 +148,16 @@ table(labels_fs)
 # Generate plots: clustering
 # --------------------------
 
-library(RColorBrewer)
-colors_clus <- brewer.pal(12, "Paired")
+colors_clus <- unname(palette.colors(palette = "Polychrome 36"))
+
+#library(RColorBrewer)
+#colors_clus <- brewer.pal(12, "Paired")
 
 #library(colorspace)
 #set.seed(7)
 #colors_clus <- sample(qualitative_hcl(12))
 #colors_clus <- sample(qualitative_hcl(20))
 
-#colors_clus <- unname(palette.colors(palette = "Polychrome 36"))
 #colors_clus <- rainbow(12)
 #colors_clus <- brewer.pal(12, "Set3")
 
@@ -179,18 +180,18 @@ plot_tSNE_clus <- function(dims_tSNE, labels, colors,
 
 # seed 1
 plot_tSNE_clus(dims_Rtsne_1, labels_fs, colors_clus)
-ggsave("../plots/FlowSOM_tSNE_seed1.png", width = 4, height = 3)
-ggsave("../plots/FlowSOM_tSNE_seed1.pdf", width = 4, height = 3)
+ggsave("../plots/FlowSOM_tSNE_seed1.png", width = 4.5, height = 3.75)
+ggsave("../plots/FlowSOM_tSNE_seed1.pdf", width = 4.5, height = 3.75)
 
 # seed 2
 plot_tSNE_clus(dims_Rtsne_2, labels_fs, colors_clus)
-ggsave("../plots/FlowSOM_tSNE_seed2.png", width = 4, height = 3)
-ggsave("../plots/FlowSOM_tSNE_seed2.pdf", width = 4, height = 3)
+ggsave("../plots/FlowSOM_tSNE_seed2.png", width = 4.5, height = 3.75)
+ggsave("../plots/FlowSOM_tSNE_seed2.pdf", width = 4.5, height = 3.75)
 
 # seed 3
 plot_tSNE_clus(dims_Rtsne_3, labels_fs, colors_clus)
-ggsave("../plots/FlowSOM_tSNE_seed3.png", width = 4, height = 3)
-ggsave("../plots/FlowSOM_tSNE_seed3.pdf", width = 4, height = 3)
+ggsave("../plots/FlowSOM_tSNE_seed3.png", width = 4.5, height = 3.75)
+ggsave("../plots/FlowSOM_tSNE_seed3.pdf", width = 4.5, height = 3.75)
 
 
 # function for UMAP plots
@@ -212,18 +213,18 @@ plot_UMAP_clus <- function(dims_umap, labels, colors,
 
 # seed 1
 plot_UMAP_clus(dims_umap_1, labels_fs, colors_clus)
-ggsave("../plots/FlowSOM_UMAP_seed1.png", width = 4, height = 3)
-ggsave("../plots/FlowSOM_UMAP_seed1.pdf", width = 4, height = 3)
+ggsave("../plots/FlowSOM_UMAP_seed1.png", width = 4.5, height = 3.75)
+ggsave("../plots/FlowSOM_UMAP_seed1.pdf", width = 4.5, height = 3.75)
 
 # seed 2
 plot_UMAP_clus(dims_umap_2, labels_fs, colors_clus)
-ggsave("../plots/FlowSOM_UMAP_seed2.png", width = 4, height = 3)
-ggsave("../plots/FlowSOM_UMAP_seed2.pdf", width = 4, height = 3)
+ggsave("../plots/FlowSOM_UMAP_seed2.png", width = 4.5, height = 3.75)
+ggsave("../plots/FlowSOM_UMAP_seed2.pdf", width = 4.5, height = 3.75)
 
 # seed 3
 plot_UMAP_clus(dims_umap_3, labels_fs, colors_clus)
-ggsave("../plots/FlowSOM_UMAP_seed3.png", width = 4, height = 3)
-ggsave("../plots/FlowSOM_UMAP_seed3.pdf", width = 4, height = 3)
+ggsave("../plots/FlowSOM_UMAP_seed3.png", width = 4.5, height = 3.75)
+ggsave("../plots/FlowSOM_UMAP_seed3.pdf", width = 4.5, height = 3.75)
 
 
 # ---------------
@@ -404,7 +405,7 @@ metadata(sce)$cluster_codes <- data.frame(som100 = factor(1:k), meta = factor(1:
 # order markers alphabetically
 sce <- sce[order(rowData(sce)$marker_name), ]
 
-pdf("../plots/heatmap_clusters.pdf", width = 6.5, height = 3.5)
+pdf("../plots/heatmap_clusters.pdf", width = 8, height = 4.5)
 plotExprHeatmap(sce, features = "type", by = "cluster_id", 
                 k = "meta", k_pal = colors_clus, hm_pal = viridis_pal()(6), 
                 row_clust = FALSE, col_clust = FALSE)
@@ -449,7 +450,8 @@ out_fs_tcells <- BuildSOM(out_fs_tcells)
 out_fs_tcells <- BuildMST(out_fs_tcells)
 labels_pre_meta_tcells <- out_fs_tcells$map$mapping[, 1]
 # number of meta-clusters
-k <- 12
+#k <- 12
+k <- 20
 seed <- 123
 out_fs_tcells <- metaClustering_consensus(out_fs_tcells$map$codes, k = k, seed = seed)
 labels_fs_tcells <- out_fs_tcells[labels_pre_meta_tcells]
@@ -512,7 +514,7 @@ metadata(sce_tcells)$cluster_codes <- data.frame(som100 = factor(1:k), meta = fa
 # order markers alphabetically
 sce_tcells <- sce_tcells[order(rowData(sce_tcells)$marker_name), ]
 
-pdf("../plots/heatmap_tcells.pdf", width = 6.5, height = 3.5)
+pdf("../plots/heatmap_tcells.pdf", width = 8, height = 4.5)
 plotExprHeatmap(sce_tcells, features = "type", by = "cluster_id", 
                 k = "meta", k_pal = colors_tcells, hm_pal = viridis_pal()(6), 
                 row_clust = FALSE, col_clust = FALSE)
