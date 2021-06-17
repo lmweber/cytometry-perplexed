@@ -80,27 +80,25 @@ ix_keep <- ix[!dups]
 n_dims <- 2
 
 
-# skip tSNE since too slow with large number of cells
-
 # run Rtsne with different random seeds
 
-# set.seed(101)
-# out_Rtsne_1 <- Rtsne(as.matrix(d_sub), dims = n_dims)
-# dims_Rtsne_1 <- out_Rtsne_1$Y
-# colnames(dims_Rtsne_1) <- c("tSNE_1", "tSNE_2")
-# head(dims_Rtsne_1)
-# 
-# set.seed(102)
-# out_Rtsne_2 <- Rtsne(as.matrix(d_sub), dims = n_dims)
-# dims_Rtsne_2 <- out_Rtsne_2$Y
-# colnames(dims_Rtsne_2) <- c("tSNE_1", "tSNE_2")
-# head(dims_Rtsne_2)
-# 
-# set.seed(103)
-# out_Rtsne_3 <- Rtsne(as.matrix(d_sub), dims = n_dims)
-# dims_Rtsne_3 <- out_Rtsne_3$Y
-# colnames(dims_Rtsne_3) <- c("tSNE_1", "tSNE_2")
-# head(dims_Rtsne_3)
+set.seed(101)
+out_Rtsne_1 <- Rtsne(as.matrix(d_sub), dims = n_dims)
+dims_Rtsne_1 <- out_Rtsne_1$Y
+colnames(dims_Rtsne_1) <- c("tSNE_1", "tSNE_2")
+head(dims_Rtsne_1)
+
+set.seed(102)
+out_Rtsne_2 <- Rtsne(as.matrix(d_sub), dims = n_dims)
+dims_Rtsne_2 <- out_Rtsne_2$Y
+colnames(dims_Rtsne_2) <- c("tSNE_1", "tSNE_2")
+head(dims_Rtsne_2)
+
+set.seed(103)
+out_Rtsne_3 <- Rtsne(as.matrix(d_sub), dims = n_dims)
+dims_Rtsne_3 <- out_Rtsne_3$Y
+colnames(dims_Rtsne_3) <- c("tSNE_1", "tSNE_2")
+head(dims_Rtsne_3)
 
 
 # run UMAP with different random seeds
@@ -166,37 +164,37 @@ colors_clus <- unname(palette.colors(palette = "Polychrome 36"))
 #colors_clus <- rainbow(12)
 #colors_clus <- brewer.pal(12, "Set3")
 
-# # function for tSNE plots
-# plot_tSNE_clus <- function(dims_tSNE, labels, colors, 
-#                            size = 0.5, alpha = 0.1) {
-#   
-#   d_plot <- cbind(as.data.frame(dims_tSNE), cluster = as.factor(labels))
-#   
-#   ggplot(d_plot, aes(x = tSNE_1, y = tSNE_2, color = cluster)) + 
-#     geom_point(size = size, alpha = alpha) + 
-#     scale_color_manual(values = colors) + 
-#     theme_bw() + 
-#     theme(legend.key.size = unit(0.75, "lines"), 
-#           panel.grid = element_blank(), 
-#           axis.text = element_blank(), 
-#           axis.ticks = element_blank()) + 
-#     guides(color = guide_legend(override.aes = list(size = 1.5, alpha = 0.75)))
-# }
-# 
-# # seed 1
-# plot_tSNE_clus(dims_Rtsne_1, labels_fs, colors_clus)
-# ggsave("../plots/FlowSOM_tSNE_seed1.png", width = 4.5, height = 3.75)
-# ggsave("../plots/FlowSOM_tSNE_seed1.pdf", width = 4.5, height = 3.75)
-# 
-# # seed 2
-# plot_tSNE_clus(dims_Rtsne_2, labels_fs, colors_clus)
-# ggsave("../plots/FlowSOM_tSNE_seed2.png", width = 4.5, height = 3.75)
-# ggsave("../plots/FlowSOM_tSNE_seed2.pdf", width = 4.5, height = 3.75)
-# 
-# # seed 3
-# plot_tSNE_clus(dims_Rtsne_3, labels_fs, colors_clus)
-# ggsave("../plots/FlowSOM_tSNE_seed3.png", width = 4.5, height = 3.75)
-# ggsave("../plots/FlowSOM_tSNE_seed3.pdf", width = 4.5, height = 3.75)
+# function for tSNE plots
+plot_tSNE_clus <- function(dims_tSNE, labels, colors,
+                           size = 0.2, alpha = 0.15) {
+
+  d_plot <- cbind(as.data.frame(dims_tSNE), cluster = as.factor(labels))
+
+  ggplot(d_plot, aes(x = tSNE_1, y = tSNE_2, color = cluster)) +
+    geom_point(size = size, alpha = alpha) +
+    scale_color_manual(values = colors) +
+    theme_bw() +
+    theme(legend.key.size = unit(0.75, "lines"),
+          panel.grid = element_blank(),
+          axis.text = element_blank(),
+          axis.ticks = element_blank()) +
+    guides(color = guide_legend(override.aes = list(size = 1.5, alpha = 0.75)))
+}
+
+# seed 1
+plot_tSNE_clus(dims_Rtsne_1, labels_fs, colors_clus)
+ggsave("../plots/FlowSOM_tSNE_seed1.png", width = 4.5, height = 3.75)
+ggsave("../plots/FlowSOM_tSNE_seed1.pdf", width = 4.5, height = 3.75)
+
+# seed 2
+plot_tSNE_clus(dims_Rtsne_2, labels_fs, colors_clus)
+ggsave("../plots/FlowSOM_tSNE_seed2.png", width = 4.5, height = 3.75)
+ggsave("../plots/FlowSOM_tSNE_seed2.pdf", width = 4.5, height = 3.75)
+
+# seed 3
+plot_tSNE_clus(dims_Rtsne_3, labels_fs, colors_clus)
+ggsave("../plots/FlowSOM_tSNE_seed3.png", width = 4.5, height = 3.75)
+ggsave("../plots/FlowSOM_tSNE_seed3.pdf", width = 4.5, height = 3.75)
 
 
 # function for UMAP plots
@@ -236,16 +234,17 @@ ggsave("../plots/FlowSOM_UMAP_seed3.pdf", width = 4.5, height = 3.75)
 # Facetted plot: random seeds
 # ---------------------------
 
-# facetted plot for 2 seeds
-d_umap <- rbind(
-  cbind(as.data.frame(dims_umap_1), seed = "seed1", cluster = labels_fs), 
-  cbind(as.data.frame(dims_umap_2), seed = "seed2", cluster = labels_fs))
+# facetted plot for 3 seeds
+d_Rtsne <- rbind(
+  cbind(as.data.frame(dims_Rtsne_1), seed = "seed1", cluster = labels_fs), 
+  cbind(as.data.frame(dims_Rtsne_2), seed = "seed2", cluster = labels_fs), 
+  cbind(as.data.frame(dims_Rtsne_3), seed = "seed3", cluster = labels_fs))
 
-d_umap$seed <- as.factor(d_umap$seed)
-d_umap$cluster <- as.factor(d_umap$cluster)
+d_Rtsne$seed <- as.factor(d_Rtsne$seed)
+d_Rtsne$cluster <- as.factor(d_Rtsne$cluster)
 
-ggplot(d_umap, aes(x = UMAP_1, y = UMAP_2, color = cluster)) + 
-  geom_point(size = 0.1, alpha = 0.1) + 
+ggplot(d_Rtsne, aes(x = tSNE_1, y = tSNE_2, color = cluster)) + 
+  geom_point(size = 0.1, alpha = 0.15) + 
   scale_color_manual(values = colors_clus) + 
   facet_wrap(~seed, ncol = 1) + 
   theme_bw() + 
@@ -255,8 +254,8 @@ ggplot(d_umap, aes(x = UMAP_1, y = UMAP_2, color = cluster)) +
         axis.ticks = element_blank()) + 
   guides(color = guide_legend(override.aes = list(size = 1.5, alpha = 0.75)))
 
-ggsave("../plots/UMAP_randomseeds_two.png", width = 3.75, height = 5.5)
-ggsave("../plots/UMAP_randomseeds_two.pdf", width = 3.75, height = 5.5)
+ggsave("../plots/tSNE_randomseeds_three.png", width = 3.5, height = 7.5)
+ggsave("../plots/tSNE_randomseeds_three.pdf", width = 3.5, height = 7.5)
 
 
 # facetted plot for 3 seeds
