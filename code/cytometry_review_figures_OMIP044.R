@@ -435,7 +435,7 @@ out_fs_dcs <- BuildMST(out_fs_dcs)
 labels_pre_meta_dcs <- out_fs_dcs$map$mapping[, 1]
 # number of meta-clusters
 #k <- 12
-k <- 20
+k <- 15
 seed <- 123
 out_fs_dcs <- metaClustering_consensus(out_fs_dcs$map$codes, k = k, seed = seed)
 labels_fs_dcs <- out_fs_dcs[labels_pre_meta_dcs]
@@ -486,13 +486,13 @@ metadata(sce_dcs)$cluster_codes <- data.frame(som100 = factor(1:k), meta = facto
 # order markers alphabetically
 sce_dcs <- sce_dcs[order(rowData(sce_dcs)$marker_name), ]
 
-pdf("../plots/heatmap_DCs_global.pdf", width = 6.75, height = 4.5)
+pdf("../plots/heatmap_DCs_global.pdf", width = 6.75, height = 3.75)
 plotExprHeatmap(sce_dcs, features = "type", by = "cluster_id", scale = "first", 
                 k = "meta", k_pal = colors_dcs, hm_pal = viridis_pal()(6), 
                 row_clust = FALSE, col_clust = FALSE)
 dev.off()
 
-pdf("../plots/heatmap_DCs_channel.pdf", width = 6.75, height = 4.5)
+pdf("../plots/heatmap_DCs_channel.pdf", width = 6.75, height = 3.75)
 plotExprHeatmap(sce_dcs, features = "type", by = "cluster_id", scale = "last", 
                 k = "meta", k_pal = colors_dcs, hm_pal = viridis_pal()(6), 
                 row_clust = FALSE, col_clust = FALSE)
