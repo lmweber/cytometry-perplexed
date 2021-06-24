@@ -151,7 +151,12 @@ table(labels_fs)
 # Generate plots: clustering
 # --------------------------
 
-colors_clus <- unname(palette.colors(palette = "Polychrome 36"))
+colors_clus <- c("#a6bddb", "#fd8d3c", "#9e9ac8", "#cc4c02", "#3690c0", "#cb181d", 
+                 "#993404", "#ffff33", "#f7fcb9", "#addd8e", "#78c679", "#969696", 
+                 "#d9f0a3", "#41ab5d", "#238443", "#ccebc5", "#a8ddb5", "#7bccc4", 
+                 "#df65b0", "#e7298a")
+
+#colors_clus <- unname(palette.colors(palette = "Polychrome 36"))
 
 #library(RColorBrewer)
 #colors_clus <- brewer.pal(12, "Paired")
@@ -454,7 +459,11 @@ stopifnot(nrow(dims_umap_dcs) == length(labels_fs_dcs))
 
 # plot DCs + myeloid subsets: UMAP
 
-colors_dcs <- colors_clus
+colors_dcs <- c("#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#d9d9d9", 
+                "#cb181d", "#bdbdbd", "#fd8d3c", "#9e9ac8", "#969696", "#737373", 
+                "#08519c", "#08306b", "#807dba")
+
+#colors_dcs <- colors_clus
 
 plot_UMAP_clus(dims_umap_dcs, labels_fs_dcs, colors_dcs)
 ggsave("../plots/DCs_FlowSOM_UMAP.png", width = 4.5, height = 3.75)
